@@ -17,7 +17,13 @@
         "node": "^22",
         "npm": "^10.9.x"
     },
+    "scripts": {
+        "test": "node test.js"
+    },
     "devDependencies": {
+        "chalk": "^5.3.0",
+        "fs-extra": "^11.2.0",
+        "minimist": "^1.2.8",
         "prettier": "^3.4.1"
     },
     "private": true,
