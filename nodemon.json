@@ -1,0 +1,7 @@
+{
+    "ignoreRoot": [".git"],
+    "events": {
+        "start": "clear"
+    },
+    "watch": ["*.ts", "*/*.ts", "*/input", "*/sample"]
+}
