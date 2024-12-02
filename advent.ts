@@ -14,7 +14,7 @@ function getAnswer<T>(callback: AnswerCallback<T>, filename: 'sample' | 'input')
 }
 
 let callCount = 0;
-export function run<T>(expected: T, callback: AnswerCallback<T>) {
+export function run<T>(expected: T, callback: AnswerCallback<T | void>) {
     callCount++;
     const actual = getAnswer(callback, options.sample ? 'sample' : 'input');
 
