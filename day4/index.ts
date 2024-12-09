@@ -86,3 +86,68 @@ function findXmas(
 
     return total;
 }
+
+/**
+ *
+It's an X-MAS puzzle in which you're supposed to find two MAS in the shape of an X.
+
+
+M.S
+.A.
+M.S
+
+Within the X, each MAS can be written forwards or backwards.
+
+.M.S......
+..A..MSMS.
+.M.S.MAA..
+..A.ASMSM.
+.M.S.M....
+..........
+S.S.S.S.S.
+.A.A.A.A..
+M.M.M.M.M.
+..........
+ */
+// 1871
+run(9, ({ lines }) => {
+    const grid = gridify(lines);
+
+    let count = 0;
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[row].length; col++) {
+            if (grid[row][col] === 'A' && findMAS(grid, row, col)) {
+                count += 1;
+            }
+        }
+    }
+    return count;
+});
+
+/**
+
+M.S
+.A.
+M.S
+
+ */
+function findMAS(grid: string[][], row: number, col: number) {
+    const topLeft = grid[row - 1]?.[col - 1];
+    const bottomRight = grid[row + 1]?.[col + 1];
+    const topLeftMatch = topLeft === 'M' || topLeft === 'S';
+    const bottomRightMatch = bottomRight === 'M' || bottomRight === 'S';
+
+    const topRight = grid[row - 1]?.[col + 1];
+    const bottomLeft = grid[row + 1]?.[col - 1];
+    const topRightMatch = topRight === 'M' || topRight === 'S';
+    const bottomLeftMatch = bottomLeft === 'M' || bottomLeft === 'S';
+
+    return (
+        topLeftMatch &&
+        bottomRightMatch &&
+        topLeft !== bottomRight &&
+        topRightMatch &&
+        bottomLeftMatch &&
+        topRight !== bottomLeft
+    );
+}
