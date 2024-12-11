@@ -46,3 +46,44 @@ run(3749, ({ lines }) => {
     }
     return total;
 });
+function concat(left: number, right: number) {
+    return Number(left.toString() + right.toString());
+}
+
+function test2(testValue: number, nums: number[], total: number, i: number): boolean {
+    if (i >= nums.length - 1) {
+        return (
+            total + nums[i] === testValue ||
+            total * nums[i] === testValue ||
+            concat(total, nums[i]) === testValue
+        );
+    }
+
+    return (
+        test2(testValue, nums, total + nums[i], i + 1) ||
+        test2(testValue, nums, total * nums[i], i + 1) ||
+        test2(testValue, nums, concat(total, nums[i]), i + 1)
+    );
+}
+
+/*
+
+    156: 15 6 can be made true through a single concatenation: 15 || 6 = 156.
+    7290: 6 8 6 15 can be made true using 6 * 8 || 6 * 15.
+        6 * 8 = 48
+        48 || 6 = 486
+        486 * 15 = 7290
+    192: 17 8 14 can be made true using 17 || 8 + 14.
+
+*/
+// 105517128211543
+run(11387, ({ lines }) => {
+    const equations = lines.map(parse);
+    let total = 0;
+    for (const [testValue, nums] of equations) {
+        if (test2(testValue, nums, nums[0], 1)) {
+            total += testValue;
+        }
+    }
+    return total;
+});
