@@ -73,3 +73,54 @@ run(14, ({ lines }) => {
 
     return antinodes.size;
 });
+
+/*
+##....#....#
+.#.#....0...
+..#.#0....#.
+..##...0....
+....0....#..
+.#...#A....#
+...#..#.....
+#....#.#....
+..#.....A...
+....#....A..
+.#........#.
+...#......##
+*/
+run(34, ({ lines }) => {
+    const [grid, antennas] = gridify(lines);
+
+    const antinodes = new Set<string>();
+    function addToAntinode([row, col]: [number, number], addToRow: number, addToCol: number) {
+        while (row >= 0 && row < grid.length && col >= 0 && col < grid[row].length) {
+            if (row >= 0 && row < grid.length && col >= 0 && col < grid[row].length) {
+                antinodes.add(`${row}-${col}`);
+            }
+            row = row + addToRow;
+            col = col + addToCol;
+        }
+    }
+
+    for (const [antenna, nodes] of antennas.entries()) {
+        if (nodes.length < 2) {
+            continue;
+        }
+
+        for (let i = 0; i < nodes.length; i++) {
+            for (let k = i + 1; k < nodes.length; k++) {
+                const [row, col] = distanceBetween(nodes[i], nodes[k]);
+
+                addToAntinode(nodes[i], -row, -col);
+                addToAntinode(nodes[k], row, col);
+            }
+        }
+    }
+
+    for (const antinode of antinodes) {
+        const [row, col] = antinode.split('-').map((n) => Number(n));
+        grid[row][col] = '#';
+    }
+
+    return antinodes.size;
+});
