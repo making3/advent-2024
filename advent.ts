@@ -32,3 +32,12 @@ export function run<T>(expected: T, callback: AnswerCallback<T | void>) {
 
     return actual;
 }
+
+export function printGrid<T>(grid: T[][]) {
+    console.log(
+        grid.reduce((acc, row) => {
+            acc += row.join('') + '\n';
+            return acc;
+        }, ''),
+    );
+}
